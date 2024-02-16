@@ -1,7 +1,7 @@
-import os
 import shutil
-
 from terminaltables import AsciiTable
+from command_manager import CommandManager
+from command_manager.commands.main_menu import MainMenuConnectCommand, MainMenuSystemCommand, MainMenuWorldsCommand
 
 
 class Player:
@@ -39,23 +39,12 @@ class Player:
         Main menu, allows the player to start the world and what not.
         :return:
         """
-        while True:
-            command = input("main>")
-            command = command.lower().strip()
-            if command == "help":
-                print("Allowed commands:\n * system\n * worlds\n * connect {world}")
-            elif command == "system":
-                print("System Messages:\n  You have been assigned to a new world.\n  Please connect as soon as possible.")
-            elif command == "worlds":
-                print("Available worlds:\n * homeworld")
-            elif command.startswith("connect"):
-                if command == "connect homeworld":
-                    print("Connecting...")
-                    self.game_manager.running = True
-                    print(" * Successfully connected\n\n")
-                    break
-                else:
-                    print("Unknown world.")
+        main_menu_cmd_manager = CommandManager([MainMenuConnectCommand, MainMenuSystemCommand, MainMenuWorldsCommand], player=self, game_manager=self.game_manager)
+        while not self.game_manager.running:
+            cmd = input("main>")
+            main_menu_cmd_manager.handle(cmd)
+
+
 
     def console(self):
         """
