@@ -46,6 +46,7 @@ class Celestial:
         Randomly generates a celestial object. Requires all the possible types of resources and celestials
         :return:
         """
+        # TODO: add name generation or just ask for one
         result = Celestial(name="some cool name",
                            celestial_type=random.choice(celestial_types))
         result.generate_slots(resources)
