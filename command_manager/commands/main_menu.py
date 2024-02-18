@@ -26,7 +26,6 @@ class MainMenuConnectCommand(BaseCommand):
 
     @staticmethod
     def execute(_context: Context, args):
-        print(args)
         if args[0] == "homeworld":
             print("Connecting...")
             _context.game_manager.running = True

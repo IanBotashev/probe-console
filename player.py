@@ -44,13 +44,13 @@ class Player:
             cmd = input("main>")
             main_menu_cmd_manager.handle(cmd)
 
-
-
     def console(self):
         """
         Main loop for the console.
         When run, waits for the user to run a command, then handles it.
         :return:
         """
+        console_cmd_manager = CommandManager([], player=self, game_manager=self.game_manager)
         while self.game_manager.running:
-            input(">")
+            cmd = input(">")
+            console_cmd_manager.handle(cmd)
