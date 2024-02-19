@@ -1,6 +1,10 @@
 In general, a command terminal game about trying to understand what's going on in space just through a console.  
 Control, mine and explore all through the terminal.
 
+## Fog of war
+We pre-generate a solar system with around 5-8 celestial objects  
+Celestial objects have flags on them indicating what has been revealed  
+
 ## Player
 The player object is what handles command line inputs  
 
@@ -32,6 +36,7 @@ unlimited slots for objects
 
 
 ## Probes
+Probes are at any time located at a celestial object   
 Communicate with them through console, something like:  
 `connect probe_1`  
 `status`  

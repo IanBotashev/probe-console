@@ -21,10 +21,13 @@ class Celestial:
     The type and name are required, but the slots can be generated AFTER object initialization.
     Or, they can also be set manually by doing something like self.slots = [slot1, slot2, slot3, ...]
     """
-    def __init__(self, name, celestial_type: CelestialType):
+    def __init__(self, name, celestial_type: CelestialType, revealed=False, revealed_slots=False):
         self.name = name
         self.type = celestial_type
         self.slots = None
+
+        self.revealed = revealed  # Has this object been revealed?
+        self.revealed_slots = revealed_slots  # Has it's resources been scanned?
 
     def generate_slots(self, resources):
         """
@@ -38,7 +41,10 @@ class Celestial:
             self.slots.append(slot)
 
     def __str__(self):
-        return f"Celestial(name={self.name}, type={self.type})"
+        if self.revealed_slots:
+            return f"{self.type.name}(name={self.name}, resources={self.slots})"
+        else:
+            return f"{self.type.name}(name={self.name}, resources=unknown)"
 
     @staticmethod
     def generate(celestial_types, resources):

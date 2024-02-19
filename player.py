@@ -2,6 +2,7 @@ import shutil
 from terminaltables import AsciiTable
 from command_manager import CommandManager
 from command_manager.commands.main_menu import MainMenuConnectCommand, MainMenuSystemCommand, MainMenuWorldsCommand
+from command_manager.commands.console import ConsoleObjectsCommandCommand, ConsoleProbeInterfaceCommand
 
 
 class Player:
@@ -10,7 +11,21 @@ class Player:
     """
     def __init__(self, game_manager):
         self.game_manager = game_manager
+        self.probes = []
+        self.money = 100
         self.intro()
+
+    def get_probe(self, probe_name: str):
+        """
+        Gets a probe from its name
+        :param probe_name:  The name of the probe, string
+        :return: Probe object or None
+        """
+        for probe in self.probes:
+            if probe.name == probe_name:
+                return probe
+
+        return None
 
     def intro(self):
         """
@@ -39,7 +54,10 @@ class Player:
         Main menu, allows the player to start the world and what not.
         :return:
         """
-        main_menu_cmd_manager = CommandManager([MainMenuConnectCommand, MainMenuSystemCommand, MainMenuWorldsCommand], player=self, game_manager=self.game_manager)
+        main_menu_cmd_manager = CommandManager(
+            [MainMenuConnectCommand, MainMenuSystemCommand, MainMenuWorldsCommand],
+            player=self,
+            game_manager=self.game_manager)
         while not self.game_manager.running:
             cmd = input("main>")
             main_menu_cmd_manager.handle(cmd)
@@ -50,7 +68,10 @@ class Player:
         When run, waits for the user to run a command, then handles it.
         :return:
         """
-        console_cmd_manager = CommandManager([], player=self, game_manager=self.game_manager)
-        while self.game_manager.running:
+        console_cmd_manager = CommandManager(
+            [ConsoleObjectsCommandCommand, ConsoleProbeInterfaceCommand],
+            player=self,
+            game_manager=self.game_manager)
+        while console_cmd_manager.active and self.game_manager.running:
             cmd = input(">")
             console_cmd_manager.handle(cmd)

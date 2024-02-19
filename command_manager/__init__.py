@@ -7,7 +7,8 @@ class CommandManager:
     def __init__(self, commands, player, game_manager):
         self.commands = commands
         self.commands.append(HelpCommand)
-        self.context = Context(player, game_manager, self)
+        self.context = Context(player=player, game_manager=game_manager, command_manager=self)
+        self.active = True
 
     def handle(self, raw_string):
         """

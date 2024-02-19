@@ -19,7 +19,7 @@ RESOURCES = [
 CELESTIAL_TYPES = [
     CelestialType("asteroid", 1, 1, 20),
     CelestialType("moon", 2, 5, 25),
-    CelestialType("asteroid", 3, 10, 30)
+    CelestialType("planet", 3, 10, 30)
 ]
 
 

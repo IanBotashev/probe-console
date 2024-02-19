@@ -23,6 +23,7 @@ class Probe:
         self.name = name
         self.modules = modules
         self.energy = 0
+        self.location = None  # Which celestial object this is orbiting
 
     def can_mine(self):
         """

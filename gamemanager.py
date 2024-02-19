@@ -1,5 +1,7 @@
+import random
 import threading
 import time
+from objects.celestial import Celestial
 from settings import TICK_SLEEP_TIME, RESOURCES, CELESTIAL_TYPES
 from player import Player
 
@@ -15,6 +17,9 @@ class GameManager:
     def __init__(self):
         self.tick = 0
         self.running = False
+        self.capital_celestial = Celestial("homeworld", CELESTIAL_TYPES[2], revealed=True, revealed_slots=True)
+        self.celestials = self.generate_solar_systems()
+        self.celestials.append(self.capital_celestial)
         self.player = Player(self)
 
     def main_loop(self):
@@ -38,3 +43,17 @@ class GameManager:
         while self.running:
             time.sleep(TICK_SLEEP_TIME)
             self.tick += 1
+
+    def generate_solar_systems(self):
+        """
+        Generates a random number of random celestials
+        :return: Returns the list of random celestials
+        """
+        result = []
+        for x in range(random.randint(5, 10)):
+            new_celestial = Celestial.generate(CELESTIAL_TYPES, RESOURCES)
+            result.append(new_celestial)
+
+        result[0].revealed = True
+
+        return result
