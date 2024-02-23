@@ -25,6 +25,7 @@ class GameManager:
         self.player = Player(self)
 
     def main_loop(self):
+        self.running = True
         self.start_tick_system()
         self.player.console()
 

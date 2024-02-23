@@ -1,8 +1,8 @@
 import shutil
 from terminaltables import AsciiTable
 from command_manager import CommandManager
-from command_manager.commands.cheat import DiscoverAllCelestialsCheat, CreateTestProbeCheat
-from command_manager.commands.main_menu import MainMenuConnectCommand, MainMenuSystemCommand, MainMenuWorldsCommand
+from command_manager.commands.cheat import *
+from command_manager.commands.main_menu import *
 from command_manager.commands.console import *
 from settings import ENABLE_CHEATS, ENABLE_MAIN_MENU, ENABLE_INTRO
 
@@ -93,5 +93,5 @@ class Player:
             game_manager=self.game_manager)
 
         if ENABLE_CHEATS:
-            console_cmd_manager.commands += [DiscoverAllCelestialsCheat, CreateTestProbeCheat]
+            console_cmd_manager.commands += [DiscoverAllCelestialsCheat, CreateTestProbeCheat, GetTickCheat]
         console_cmd_manager.handle_loop(">")

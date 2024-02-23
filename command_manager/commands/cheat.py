@@ -5,15 +5,6 @@ from settings import MODULES
 from objects.probe import Probe
 
 
-class InterfaceStatusCommand(BaseCommand):
-    help_message = "Get status of this probe"
-    alias = "status"
-
-    @staticmethod
-    def execute(context: Context, args):
-        print(context.probe)
-
-
 class DiscoverAllCelestialsCheat(BaseCommand):
     help_message = "Discovers all celestials and their resources"
     alias = "cheatdiscoverall"
@@ -35,3 +26,12 @@ class CreateTestProbeCheat(BaseCommand):
         name = f"probe{len(context.player.probes)}"
         context.player.build_probe(name, MODULES)
         print(name)
+
+
+class GetTickCheat(BaseCommand):
+    help_message = "Prints current tick"
+    alias = "tick"
+
+    @staticmethod
+    def execute(context: Context, args):
+        print(context.game_manager.tick)
