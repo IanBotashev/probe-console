@@ -23,6 +23,7 @@ class MainMenuWorldsCommand(BaseCommand):
 class MainMenuConnectCommand(BaseCommand):
     help_message = "Connects to an assigned world"
     alias = "connect"
+    required_args = 1
 
     @staticmethod
     def execute(_context: Context, args):

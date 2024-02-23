@@ -56,6 +56,8 @@ Probes can designed, by adding modules to them which can do certain tasks.
 | Drill        | Mines resources                                  | 1           | 10          |
 
 
+Probes also have a certain amount of fuel, each fuel point allows them to move to another celestial object
+
 ## Objects
 There's tiers to the objects, each consequent tier has more resources than the last.  
 Although, higher tiers have less expensive resources, usually only having lower tiers of resources  

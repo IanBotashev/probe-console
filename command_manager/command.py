@@ -7,6 +7,7 @@ class BaseCommand:
     """
     help_message = "Generic help message"
     alias = "base_command"
+    required_args = 0
 
     @staticmethod
     def execute(_context: Context, args):

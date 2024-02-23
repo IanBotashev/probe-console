@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from typing import List
+from objects.celestial import Celestial
 
 
 @dataclass
@@ -24,6 +25,7 @@ class Probe:
         self.modules = modules
         self.energy = 0
         self.location = None  # Which celestial object this is orbiting
+        self.fuel = 5
 
     def can_mine(self):
         """
@@ -57,3 +59,28 @@ class Probe:
                 return True
 
         return False
+
+    def change_location(self, location: Celestial, consume_fuel: bool = True):
+        """
+        Changes the location of this probe to the given location
+        Also checks if we have fuel and are not already at the specified location,
+        if so, does nothing and prints to the console an error.
+        :param location: Location to change the probe to
+        :param consume_fuel: Decides whether or not to consume a unit of fuel to change location
+        :return: None
+        """
+        if consume_fuel and self.fuel <= 0:
+            print("Warning! This probe does not have enough fuel left to move location!")
+            return
+
+        if self.location == location:
+            print("Already at location.")
+            return
+
+        self.location = location
+        if consume_fuel:
+            self.fuel -= 1
+
+
+    def __str__(self):
+        return f"{self.name}(energy={self.energy}, fuel={self.fuel}, location={self.location})"

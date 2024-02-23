@@ -54,6 +54,17 @@ class GameManager:
             new_celestial = Celestial.generate(CELESTIAL_TYPES, RESOURCES)
             result.append(new_celestial)
 
-        result[0].revealed = True
-
         return result
+
+    def get_celestial_by_name(self, name, is_revealed=True):
+        """
+        Gets a celestial by its name
+        :param name: Name to search for
+        :param is_revealed: Whether or not the celestial must've been revealed (defaults to True)
+        :return: Celestial object if found, otherwise None
+        """
+        for celestial in self.celestials:
+            if celestial.name == name and celestial.revealed == is_revealed:
+                return celestial
+
+        return None

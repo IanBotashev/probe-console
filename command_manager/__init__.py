@@ -21,6 +21,9 @@ class CommandManager:
 
         for potential_command in self.commands:
             if _command == potential_command.alias:
+                if potential_command.required_args != len(args):
+                    print(f"Command '{potential_command.alias}' requires {potential_command.required_args} arguments, {len(args)} were given.")
+                    return
                 potential_command.execute(self.context, args)
                 return
 
@@ -40,7 +43,7 @@ class CommandManager:
 
         result = parser.parseString(raw)
         _command = result['command']
-        arguments = None if 'arguments' not in result.keys() else result['arguments']
+        arguments = [] if 'arguments' not in result.keys() else result['arguments']
         return _command, arguments
 
 

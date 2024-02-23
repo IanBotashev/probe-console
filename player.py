@@ -2,7 +2,7 @@ import shutil
 from terminaltables import AsciiTable
 from command_manager import CommandManager
 from command_manager.commands.main_menu import MainMenuConnectCommand, MainMenuSystemCommand, MainMenuWorldsCommand
-from command_manager.commands.console import ConsoleObjectsCommandCommand, ConsoleProbeInterfaceCommand
+from command_manager.commands.console import *
 
 
 class Player:
@@ -49,6 +49,18 @@ class Player:
         print(table.table)
         self.main_menu()
 
+    def build_probe(self, name, modules):
+        """
+        'Builds' a probe and makes its location the homeworld.
+        :param name: Name of the probe
+        :param modules: Modules to include
+        :return: Probe object
+        """
+        probe = Probe(name=name, modules=modules)
+        probe.change_location(self.game_manager.capital_celestial, consume_fuel=False)
+        self.probes.append(probe)
+        return probe
+
     def main_menu(self):
         """
         Main menu, allows the player to start the world and what not.
@@ -69,7 +81,11 @@ class Player:
         :return:
         """
         console_cmd_manager = CommandManager(
-            [ConsoleObjectsCommandCommand, ConsoleProbeInterfaceCommand],
+            [ConsoleListObjectsCommand,
+             ConsoleProbeInterfaceCommand,
+             ConsoleListProbesCommand,
+             ConsoleStatusCommand,
+             ConsoleBuildProbeCommand],
             player=self,
             game_manager=self.game_manager)
         while console_cmd_manager.active and self.game_manager.running:
