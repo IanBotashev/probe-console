@@ -60,6 +60,8 @@ class CommandManager:
         :param raw:
         :return: command, args: List[]
         """
+        # TODO: Fix issue where just pressing enter raises an exception
+        # pyparsing.exceptions.ParseException: Expected W:(!-~)  (at char 0), (line:1, col:1)
         printables_without_space = printables.replace(" ", "")
         _command = Word(printables_without_space).setResultsName("command")  # Command must be alphabetic
         integer = Word(nums).setParseAction(lambda t: int(t[0]))  # Convert matched integers to Python ints

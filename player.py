@@ -61,6 +61,7 @@ class Player:
         :param modules: Modules to include
         :return: Probe object
         """
+        # TODO: Add a cost to building probes
         probe = Probe(name=name, modules=modules)
         probe.change_location(self.game_manager.capital_celestial, consume_fuel=False)
         self.probes.append(probe)
@@ -95,3 +96,10 @@ class Player:
         if ENABLE_CHEATS:
             console_cmd_manager.commands += [DiscoverAllCelestialsCheat, CreateTestProbeCheat, GetTickCheat]
         console_cmd_manager.handle_loop(">")
+
+    def get_tick_objects(self):
+        """
+        Gets all the tick objects we have documented in this class
+        :return:
+        """
+        return self.probes

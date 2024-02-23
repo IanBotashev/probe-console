@@ -2,31 +2,27 @@ from dataclasses import dataclass
 from typing import List
 from objects.celestial import Celestial
 from exceptions import InGameException
+from objects.tickobject import TickObject
+from settings import TICK_LENGTH_TO_GENERATE
+from objects.probemodule import Module
 
 
-@dataclass
-class Module:
-    """
-    Represents a module that can be equipped on a probe
-    """
-    name: str
-    energy_cost: int
-    energy_capacity: int  # Only for modules that store energy, A.K.A. batteries
-    energy_generation: int  # Only for modules that generate energy, A.K.A. solar panels
-
-    # Variables that turn on/off abilities of the probe
-    allows_mining: bool
-    allows_landing: bool
-    allows_scanning: bool
-
-
-class Probe:
+class Probe(TickObject):
     def __init__(self, name: str, modules: List[Module]):
         self.name = name
         self.modules = modules
+
+        # Energy
         self.energy = 0
+        self.energy_cap = self.get_energy_capacity()
+        self.energy_gen = self.get_energy_generation()
+
+        # Location related
         self.location = None  # Which celestial object this is orbiting
         self.fuel = 5
+
+        # Technical
+        self.last_energy_update = 0
 
     def can_mine(self):
         """
@@ -82,5 +78,37 @@ class Probe:
 
         return True
 
+    def get_energy_capacity(self):
+        """
+        Goes through our modules and adds up the energy cap of each one
+        :return:
+        """
+        result = 0
+        for module in self.modules:
+            result += module.energy_capacity
+        return result
+
+    def get_energy_generation(self):
+        """
+        Goes through our modules and adds up the energy generation of each one
+        :return:
+        """
+        result = 0
+        for module in self.modules:
+            result += module.energy_generation
+        return result
+
+    def update(self, tick):
+        # Update energy
+        # Make sure it's been a certain amount of ticks since last update
+        if self.last_energy_update + TICK_LENGTH_TO_GENERATE > tick:
+            return
+        # Make sure we don't go over the energy cap set by our modules
+        if self.energy + self.energy_gen <= self.energy_cap:
+            self.energy += self.energy_gen
+        else:
+            self.energy = self.energy_cap
+        self.last_energy_update = tick
+
     def __str__(self):
-        return f"{self.name}(energy={self.energy}, fuel={self.fuel}, location={self.location})"
+        return f"{self.name}(energy=(stored={self.energy}, cap={self.energy_cap}, gen={self.energy_gen}), fuel={self.fuel}, location={self.location})"

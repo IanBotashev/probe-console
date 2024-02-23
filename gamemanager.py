@@ -32,7 +32,7 @@ class GameManager:
     def start_tick_system(self):
         """
         Starts the process for ticks by starting a thread running tick_system
-        :return:
+        :return: None
         """
         tick_thread = threading.Thread(target=self.next_tick)
         tick_thread.daemon = True  # Ensures the thread exits when the main program does
@@ -41,11 +41,21 @@ class GameManager:
     def next_tick(self):
         """
         Ticks game time as specified in settings.py
-        :return:
+        :return: None
         """
         while self.running:
+            self.tick_update()  # Run beforehand, so we start from 0, not 1.
             time.sleep(TICK_SLEEP_TIME)
             self.tick += 1
+
+    def tick_update(self):
+        """
+        Run all the tick object updates
+        :return: None
+        """
+        tick_objects = self.player.get_tick_objects()
+        for tick_object in tick_objects:
+            tick_object.update(self.tick)
 
     def get_celestial_by_name(self, name, is_revealed=True):
         """

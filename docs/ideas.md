@@ -47,13 +47,14 @@ Has a currency for these tasks: energy.
 Essentially a budget for other modules  
 Probes can designed, by adding modules to them which can do certain tasks.  
 
-| Module       | Description                                      | Energy Cost | Dollar Cost |
-|--------------|--------------------------------------------------|-------------|-------------|
-| Solar Panel  | Adds 1 energy to the budget every tick           | 0           | 2           |
-| Battery      | Stores 5 energy                                  | 0           | 2           |
-| Landing Legs | Allows landing on objects to mine, explore, etc. | 1           | 10          |
-| Scanner      | Surveys objects, reveals info on them            | 1           | 5           |
-| Drill        | Mines resources                                  | 1           | 10          |
+| Module        | Description                                      | Energy Cost | Dollar Cost |
+|---------------|--------------------------------------------------|-------------|-------------|
+| Solar Panel   | Adds 1 energy to the budget every tick           | 0           | 2           |
+| Battery       | Stores 5 energy                                  | 0           | 2           |
+| Landing Legs  | Allows landing on objects to mine, explore, etc. | 1           | 10          |
+| Scanner       | Surveys objects, reveals info on them            | 1           | 5           |
+| Drill         | Mines resources                                  | 1           | 10          |
+| Radio Scanner | Allows probes to scan for celestials             | 2           | 50          |
 
 
 Probes also have a certain amount of fuel, each fuel point allows them to move to another celestial object
