@@ -10,10 +10,10 @@ class BaseCommand:
     required_args = 0
 
     @staticmethod
-    def execute(_context: Context, args):
+    def execute(context: Context, args):
         """
         Execute this command
-        :param _context: Context that this command will use
+        :param context: Context that this command will use
         :param args: Args, inputted as a list
         :return:
         """

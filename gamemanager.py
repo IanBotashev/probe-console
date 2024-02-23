@@ -4,6 +4,7 @@ import time
 from objects.celestial import Celestial
 from settings import TICK_SLEEP_TIME, RESOURCES, CELESTIAL_TYPES
 from player import Player
+from namegeneration import generate_name
 
 
 class GameManager:
@@ -18,6 +19,7 @@ class GameManager:
         self.tick = 0
         self.running = False
         self.capital_celestial = Celestial("homeworld", CELESTIAL_TYPES[2], revealed=True, revealed_slots=True)
+        self.celestials = []  # Needs to be created beforehand
         self.celestials = self.generate_solar_systems()
         self.celestials.append(self.capital_celestial)
         self.player = Player(self)
@@ -44,18 +46,6 @@ class GameManager:
             time.sleep(TICK_SLEEP_TIME)
             self.tick += 1
 
-    def generate_solar_systems(self):
-        """
-        Generates a random number of random celestials
-        :return: Returns the list of random celestials
-        """
-        result = []
-        for x in range(random.randint(5, 10)):
-            new_celestial = Celestial.generate(CELESTIAL_TYPES, RESOURCES)
-            result.append(new_celestial)
-
-        return result
-
     def get_celestial_by_name(self, name, is_revealed=True):
         """
         Gets a celestial by its name
@@ -68,3 +58,34 @@ class GameManager:
                 return celestial
 
         return None
+
+    def get_revealed_celestials(self):
+        """
+        :return: All revelealed celestials
+        """
+        return [celestial for celestial in self.celestials if celestial.revealed]
+
+    def generate_celestial_name(self):
+        """
+        Generates a random name for a celestial, and makes sure that name is not already taken
+        :return: String of name
+        """
+        names = [obj.name for obj in self.celestials]
+        result = generate_name()
+        while result in names:
+            result = generate_name()
+
+        return result
+
+    def generate_solar_systems(self):
+        """
+        Generates a random number of random celestials
+        Attempts to generate names for them as well
+        :return: Returns the list of random celestials
+        """
+        result = []
+        for x in range(random.randint(5, 10)):
+            new_celestial = Celestial.generate(self.generate_celestial_name(), CELESTIAL_TYPES, RESOURCES)
+            result.append(new_celestial)
+
+        return result

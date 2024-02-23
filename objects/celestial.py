@@ -47,13 +47,16 @@ class Celestial:
             return f"{self.type.name}(name={self.name}, resources=unknown)"
 
     @staticmethod
-    def generate(celestial_types, resources):
+    def generate(name, celestial_types, resources):
         """
         Randomly generates a celestial object. Requires all the possible types of resources and celestials
+        :param name: Name for celestial
+        :param celestial_types: All possible types to choose from
+        :param resources: All resources to pick from
         :return:
         """
         # TODO: add name generation or just ask for one
-        result = Celestial(name="some cool name",
+        result = Celestial(name=name,
                            celestial_type=random.choice(celestial_types))
         result.generate_slots(resources)
         return result

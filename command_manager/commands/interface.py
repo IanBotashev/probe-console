@@ -9,8 +9,8 @@ class InterfaceStatusCommand(BaseCommand):
     alias = "status"
 
     @staticmethod
-    def execute(_context: Context, args):
-        print(_context.probe)
+    def execute(context: Context, args):
+        print(context.probe)
 
 
 class InterfaceMoveCommand(BaseCommand):
@@ -19,36 +19,34 @@ class InterfaceMoveCommand(BaseCommand):
     required_args = 1
 
     @staticmethod
-    def execute(_context: Context, args):
-        location = _context.game_manager.get_celestial_by_name(args[0])
+    def execute(context: Context, args):
+        location = context.game_manager.get_celestial_by_name(args[0])
         if location is None:
             print(f"Could not find celestial named '{args[0]}'")
+            return
 
-        _context.probe.change_location(location)
+        successful = context.probe.change_location(location)
         print(f"Probe now orbiting {location.name}")
 
 
-class InterfaceExitCommand(BaseCommand):
-    help_message = "Disconnects the probe interface"
-    alias = "exit"
+class InterfaceListModulesCommand(BaseCommand):
+    help_message = "Lists all the modules this probe has installed"
+    alias = "modules"
 
     @staticmethod
-    def execute(_context: Context, args):
-        print("Disconnecting from probe...")
-        _context.command_manager.active = False
+    def execute(context: Context, args):
+        for module in context.probe.modules:
+            print(module)
 
 
-def interface_command_manager(_context: Context, probe):
+def interface_command_manager(context: Context, probe):
     """
     Runs the command manager when interfacing with a probe
-    :param _context: Context object given to the initial command
+    :param context: Context object given to the initial command
     :param probe: Probe object that we are interfacing with
     :return:
     """
-    probe_cmd_manager = CommandManager([InterfaceStatusCommand, InterfaceMoveCommand, InterfaceExitCommand], _context.player, _context.game_manager)
+    probe_cmd_manager = CommandManager([InterfaceStatusCommand, InterfaceMoveCommand, InterfaceListModulesCommand], context.player, context.game_manager)
     probe_cmd_manager.context.add_kwarg("probe", probe)
-    probe_cmd_manager.context.add_kwarg("command_manager", probe_cmd_manager)
 
-    while probe_cmd_manager.active:
-        cmd = input("probe>")
-        probe_cmd_manager.handle(cmd)
+    probe_cmd_manager.handle_loop(f"{probe.name}>", exit_message="Connection severed to probe.")

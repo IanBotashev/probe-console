@@ -7,7 +7,7 @@ class MainMenuSystemCommand(BaseCommand):
     alias = "system"
 
     @staticmethod
-    def execute(_context: Context, args):
+    def execute(context: Context, args):
         print("System Messages:\n  You have been assigned to a new world.\n  Please connect as soon as possible.")
 
 
@@ -16,7 +16,7 @@ class MainMenuWorldsCommand(BaseCommand):
     alias = "worlds"
 
     @staticmethod
-    def execute(_context: Context, args):
+    def execute(context: Context, args):
         print("Available worlds:\n * homeworld")
 
 
@@ -26,10 +26,11 @@ class MainMenuConnectCommand(BaseCommand):
     required_args = 1
 
     @staticmethod
-    def execute(_context: Context, args):
+    def execute(context: Context, args):
         if args[0] == "homeworld":
             print("Connecting...")
-            _context.game_manager.running = True
+            context.game_manager.running = True
+            context.command_manager.active = False
             print(" * Successfully connected.\n\n")
         else:
             print("Unknown world.")

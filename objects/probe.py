@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from typing import List
 from objects.celestial import Celestial
+from exceptions import InGameException
 
 
 @dataclass
@@ -67,20 +68,19 @@ class Probe:
         if so, does nothing and prints to the console an error.
         :param location: Location to change the probe to
         :param consume_fuel: Decides whether or not to consume a unit of fuel to change location
-        :return: None
+        :return: boolean if successful
         """
         if consume_fuel and self.fuel <= 0:
-            print("Warning! This probe does not have enough fuel left to move location!")
-            return
+            raise InGameException("Probe does not have enough fuel to move locations.")
 
         if self.location == location:
-            print("Already at location.")
-            return
+            raise InGameException("Probe already at location.")
 
         self.location = location
         if consume_fuel:
             self.fuel -= 1
 
+        return True
 
     def __str__(self):
         return f"{self.name}(energy={self.energy}, fuel={self.fuel}, location={self.location})"

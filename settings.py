@@ -31,3 +31,7 @@ MODULES = [
     Module(name="scanner", energy_cost=1, energy_capacity=0, energy_generation=0, allows_mining=False, allows_landing=False, allows_scanning=True),
     Module(name="drill", energy_cost=1, energy_capacity=0, energy_generation=0, allows_mining=True, allows_landing=False, allows_scanning=False),
 ]
+
+ENABLE_INTRO = True  # Toggles the pretty table at the top of the terminal
+ENABLE_MAIN_MENU = False  # Got sick and tired of "connect homeworld", might remove main menu later on.
+ENABLE_CHEATS = True

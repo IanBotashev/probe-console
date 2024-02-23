@@ -1,8 +1,10 @@
 import shutil
 from terminaltables import AsciiTable
 from command_manager import CommandManager
+from command_manager.commands.cheat import DiscoverAllCelestialsCheat, CreateTestProbeCheat
 from command_manager.commands.main_menu import MainMenuConnectCommand, MainMenuSystemCommand, MainMenuWorldsCommand
 from command_manager.commands.console import *
+from settings import ENABLE_CHEATS, ENABLE_MAIN_MENU, ENABLE_INTRO
 
 
 class Player:
@@ -13,7 +15,11 @@ class Player:
         self.game_manager = game_manager
         self.probes = []
         self.money = 100
-        self.intro()
+        if ENABLE_INTRO:
+            self.intro()
+
+        if ENABLE_MAIN_MENU:
+            self.main_menu()
 
     def get_probe(self, probe_name: str):
         """
@@ -47,7 +53,6 @@ class Player:
         table.padding_right = padding_spaces
 
         print(table.table)
-        self.main_menu()
 
     def build_probe(self, name, modules):
         """
@@ -70,9 +75,7 @@ class Player:
             [MainMenuConnectCommand, MainMenuSystemCommand, MainMenuWorldsCommand],
             player=self,
             game_manager=self.game_manager)
-        while not self.game_manager.running:
-            cmd = input("main>")
-            main_menu_cmd_manager.handle(cmd)
+        main_menu_cmd_manager.handle_loop("main>")
 
     def console(self):
         """
@@ -88,6 +91,7 @@ class Player:
              ConsoleBuildProbeCommand],
             player=self,
             game_manager=self.game_manager)
-        while console_cmd_manager.active and self.game_manager.running:
-            cmd = input(">")
-            console_cmd_manager.handle(cmd)
+
+        if ENABLE_CHEATS:
+            console_cmd_manager.commands += [DiscoverAllCelestialsCheat, CreateTestProbeCheat]
+        console_cmd_manager.handle_loop(">")

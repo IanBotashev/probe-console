@@ -72,6 +72,7 @@ Each tier has a different amount of "resource slots" it can have, each resource 
 ## General Mechanics
 Range: How far we can communicate and see. Defined by the farthest probe  
 __str__: used only for pretty printing into the users console.  
+__repr__: used for short pretty_printing
 
 ## Tick System
 1 tick = 1 real life second  

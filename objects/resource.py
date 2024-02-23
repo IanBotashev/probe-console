@@ -20,6 +20,9 @@ class ResourceSlot:
     def __str__(self):
         return f"Resource Slot(type: {self.type}, units: {self.units}, value: {self.type.sell_value * self.units})"
 
+    def __repr__(self):
+        return self.type.name
+
     @staticmethod
     def generate(min_units: int, max_units: int, resources: List[ResourceType]):
         """
