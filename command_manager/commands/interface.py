@@ -2,6 +2,7 @@
 from command_manager import Context
 from command_manager.command import BaseCommand
 from command_manager import CommandManager
+import constants
 
 
 class InterfaceStatusCommand(BaseCommand):
@@ -13,14 +14,14 @@ class InterfaceStatusCommand(BaseCommand):
         print(context.probe)
 
 
-class InterfaceMoveCommand(BaseCommand):
-    help_message = "Moves this probe to another location"
-    alias = "move"
+class InterfaceTransferCommand(BaseCommand):
+    help_message = "Transfer this probe to another location"
+    alias = "transfer"
     required_args = 1
 
     @staticmethod
     def execute(context: Context, args):
-        location = context.game_manager.get_celestial_by_name(args[0])
+        location = constants.game_manager.get_celestial_by_name(args[0])
         if location is None:
             print(f"Could not find celestial named '{args[0]}'")
             return
@@ -39,14 +40,13 @@ class InterfaceListModulesCommand(BaseCommand):
             print(module)
 
 
-def interface_command_manager(context: Context, probe):
+def interface_command_manager(probe):
     """
     Runs the command manager when interfacing with a probe
-    :param context: Context object given to the initial command
     :param probe: Probe object that we are interfacing with
     :return:
     """
-    probe_cmd_manager = CommandManager([InterfaceStatusCommand, InterfaceMoveCommand, InterfaceListModulesCommand], context.player, context.game_manager)
+    probe_cmd_manager = CommandManager([InterfaceStatusCommand, InterfaceTransferCommand, InterfaceListModulesCommand])
     probe_cmd_manager.context.add_kwarg("probe", probe)
 
     probe_cmd_manager.handle_loop(f"{probe.name}>", exit_message="Connection severed to probe.")

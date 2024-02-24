@@ -1,14 +1,14 @@
-from dataclasses import dataclass
 from typing import List
 from objects.celestial import Celestial
-from exceptions import InGameException
-from objects.tickobject import TickObject
+from engine.exceptions import InGameException
+from engine.gameobject import GameObject
 from settings import TICK_LENGTH_TO_GENERATE
 from objects.probemodule import Module
 
 
-class Probe(TickObject):
+class Probe(GameObject):
     def __init__(self, name: str, modules: List[Module]):
+        super().__init__()
         self.name = name
         self.modules = modules
 
@@ -109,6 +109,19 @@ class Probe(TickObject):
         else:
             self.energy = self.energy_cap
         self.last_energy_update = tick
+
+    @staticmethod
+    def get_build_cost(modules):
+        """
+        Gets the build cost of the given modules
+        :param modules:
+        :return: Float of cost
+        """
+        result = 0
+        for module in modules:
+            result += module.cost
+
+        return result
 
     def __str__(self):
         return f"{self.name}(energy=(stored={self.energy}, cap={self.energy_cap}, gen={self.energy_gen}), fuel={self.fuel}, location={self.location})"

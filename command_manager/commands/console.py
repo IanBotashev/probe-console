@@ -3,6 +3,7 @@ from command_manager.command import BaseCommand
 from command_manager.commands.interface import interface_command_manager
 from settings import MODULES
 from objects.probe import Probe
+import constants
 
 
 def get_confirmation(prompt: str):
@@ -27,12 +28,12 @@ class ConsoleProbeInterfaceCommand(BaseCommand):
     @staticmethod
     def execute(context: Context, args):
         print("Attempting interface with probe...")
-        probe = context.player.get_probe(args[0])
+        probe = constants.player.get_probe(args[0])
         if not probe:
             print(f"Probe {args[0]} does not exist.")
             return
 
-        interface_command_manager(context, probe)
+        interface_command_manager(probe)
 
 
 class ConsoleListObjectsCommand(BaseCommand):
@@ -41,8 +42,8 @@ class ConsoleListObjectsCommand(BaseCommand):
 
     @staticmethod
     def execute(context: Context, args):
-        print(f"{len(context.game_manager.get_revealed_celestials())} known celestial(s):")
-        for celestial in context.game_manager.celestials:
+        print(f"{len(constants.game_manager.get_revealed_celestials())} known celestial(s):")
+        for celestial in constants.game_manager.celestials:
             if celestial.revealed:
                 print(f"  - {celestial}")
 
@@ -53,8 +54,8 @@ class ConsoleListProbesCommand(BaseCommand):
 
     @staticmethod
     def execute(context: Context, args):
-        print(f"{len(context.player.probes)} active probe(s):")
-        for probe in context.player.probes:
+        print(f"{len(constants.player.probes)} active probe(s):")
+        for probe in constants.player.probes:
             print(f"  - {probe}")
 
 
@@ -65,8 +66,8 @@ class ConsoleStatusCommand(BaseCommand):
     @staticmethod
     def execute(context: Context, args):
         print("Status:")
-        print(f"  - Money: ${context.player.money}")
-        print(f"  - Active Probes: {len(context.player.probes)}")
+        print(f"  - Money: ${constants.player.money}")
+        print(f"  - Active Probes: {len(constants.player.probes)}")
 
 
 class ConsoleBuildProbeCommand(BaseCommand):
@@ -75,6 +76,8 @@ class ConsoleBuildProbeCommand(BaseCommand):
 
     @staticmethod
     def execute(context: Context, args):
+        # TODO: Allow user to build multiple of one module
+        # TODO: Fix this super dirty code (somehow...?)
         # We essentially just ask the player a bunch of questions
         print("Initiating design interface...")
         print("Press Ctrl+C to cancel")
@@ -91,10 +94,11 @@ class ConsoleBuildProbeCommand(BaseCommand):
             print("Modules:")
             for module in included_modules:
                 print(f"  - {module.name}")
+            print(f"Cost: {Probe.get_build_cost(included_modules)}")
             confirm = get_confirmation("Build? (y/n)")
             if not confirm:
                 return
-            context.player.build_probe(name, included_modules)
+            constants.player.build_probe(name, included_modules)
             print("Probe has been built, now orbiting homeworld.")
         except KeyboardInterrupt:
             print("\nCancelling production...")

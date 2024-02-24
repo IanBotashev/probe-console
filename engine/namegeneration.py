@@ -1,5 +1,6 @@
 import random
 
+# Temporary, hopefully, keep these in here instead of messing with settings.py
 PREFIXES = ['astro', 'lunar', 'solar', 'cosmo', 'galax', 'stellar']
 SUFFIXES = ['eon', 'ara', 'ion', 'ius', 'ara', 'ona']
 MYTH_NAMES = ['zeus', 'hera', 'apollo', 'athena', 'hermes', 'artemis', 'dionysus']

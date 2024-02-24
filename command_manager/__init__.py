@@ -1,14 +1,14 @@
 from command_manager.command import BaseCommand
 from command_manager.context import Context
 from pyparsing import Word, nums, OneOrMore, Optional, printables
-from exceptions import InGameException
+from engine.exceptions import InGameException
 
 
 class CommandManager:
-    def __init__(self, commands, player, game_manager):
+    def __init__(self, commands):
         self.commands = commands
         self.commands.append(HelpCommand)
-        self.context = Context(player=player, game_manager=game_manager, command_manager=self)
+        self.context = Context(command_manager=self)
         self.active = True
 
     def handle(self, raw_string):

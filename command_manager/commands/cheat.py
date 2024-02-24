@@ -2,7 +2,7 @@
 from command_manager import Context
 from command_manager.command import BaseCommand
 from settings import MODULES
-from objects.probe import Probe
+import constants
 
 
 class DiscoverAllCelestialsCheat(BaseCommand):
@@ -11,7 +11,7 @@ class DiscoverAllCelestialsCheat(BaseCommand):
 
     @staticmethod
     def execute(context: Context, args):
-        for celestial in context.game_manager.celestials:
+        for celestial in constants.game_manager.celestials:
             celestial.revealed = True
             celestial.revealed_slots = True
         print("All celestials revealed")
@@ -23,8 +23,8 @@ class CreateTestProbeCheat(BaseCommand):
 
     @staticmethod
     def execute(context: Context, args):
-        name = f"probe{len(context.player.probes)}"
-        context.player.build_probe(name, MODULES)
+        name = f"probe{len(constants.player.probes)}"
+        constants.player.build_probe(name, MODULES)
         print(name)
 
 
@@ -34,4 +34,4 @@ class GetTickCheat(BaseCommand):
 
     @staticmethod
     def execute(context: Context, args):
-        print(context.game_manager.tick)
+        print(constants.tick_manager.tick)

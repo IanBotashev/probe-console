@@ -1,6 +1,7 @@
 #!/usr/bin/env python3.12
-from gamemanager import GameManager
+from engine.game import Game
 import os
+import constants
 
 
 def main():
@@ -8,8 +9,8 @@ def main():
     Entrypoint for the game
     :return:
     """
-    game_manager = GameManager()
-    game_manager.main_loop()
+    constants.game = Game()
+    constants.game.run()
 
 
 def clear_terminal():

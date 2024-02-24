@@ -28,15 +28,17 @@ CELESTIAL_TYPES = [
 
 # All types of modules that can be found in-game
 MODULES = [
-    Module(name="solar panel", energy_cost=0, energy_capacity=0, energy_generation=1, allows_mining=False, allows_landing=False, allows_scanning=False, allows_radio_scanning=False, cost=2),
-    Module(name="battery", energy_cost=0, energy_capacity=5, energy_generation=0, allows_mining=False, allows_landing=False, allows_scanning=False, allows_radio_scanning=False, cost=2),
-    Module(name="landing legs", energy_cost=1, energy_capacity=0, energy_generation=0, allows_mining=False, allows_landing=True, allows_scanning=False, allows_radio_scanning=False, cost=10),
-    Module(name="scanner", energy_cost=1, energy_capacity=0, energy_generation=0, allows_mining=False, allows_landing=False, allows_scanning=True, allows_radio_scanning=False, cost=5),
-    Module(name="drill", energy_cost=1, energy_capacity=0, energy_generation=0, allows_mining=True, allows_landing=False, allows_scanning=False, allows_radio_scanning=False, cost=10),
-    Module(name="radio scanner", energy_cost=3, energy_capacity=0, energy_generation=0, allows_mining=False, allows_landing=False, allows_scanning=False, cost=10),
+    Module(name="solar panel", energy_cost=0, energy_generation=1, cost=2),
+    Module(name="battery", energy_cost=0, energy_capacity=5, cost=2),
+    Module(name="landing legs", energy_cost=1, allows_landing=True, cost=10),
+    # TODO: Implement landing
+    Module(name="scanner", energy_cost=1, allows_scanning=True, cost=5),
+    # TODO: Implement scanning
+    Module(name="drill", energy_cost=1, allows_mining=True, cost=10),
+    # TODO: Implement Mining
+    Module(name="radio scanner", energy_cost=3, allows_radio_scanning=True, cost=10),
+    # TODO: Implement radio scanning
 ]
 
 ENABLE_INTRO = True  # Toggles the pretty table at the top of the terminal
-ENABLE_MAIN_MENU = False  # Got sick and tired of "connect homeworld", might remove main menu later on.
 ENABLE_CHEATS = True
-# symptoms
