@@ -19,18 +19,23 @@ class CelestialType:
 
 class Celestial(GameObject):
     """
-    Represents a celestial object, storing it's type, slots and name.
+    Represents a celestial object, storing its type, slots and name.
     The type and name are required, but the slots can be generated AFTER object initialization.
     Or, they can also be set manually by doing something like self.slots = [slot1, slot2, slot3, ...]
     """
-    def __init__(self, name, celestial_type: CelestialType, revealed=False, revealed_slots=False):
+    def __init__(self,
+                 name,
+                 celestial_type: CelestialType,
+                 revealed=False,
+                 revealed_slots=False,):
         super().__init__()
+
         self.name = name
         self.type = celestial_type
         self.slots = None
 
         self.revealed = revealed  # Has this object been revealed?
-        self.revealed_slots = revealed_slots  # Has it's resources been scanned?
+        self.revealed_slots = revealed_slots  # Have its resources been scanned?
 
     def generate_slots(self, resources):
         """
@@ -43,12 +48,9 @@ class Celestial(GameObject):
             slot = ResourceSlot.generate(self.type.min_resource_units, self.type.max_resource_units, resources)
             self.slots.append(slot)
 
-    def update(self, **kwargs):
-        pass
-
     def __str__(self):
         if self.revealed_slots:
-            return f"{self.type.name}(name={self.name}, resources={self.slots})"
+            return f"{self.type.name}(name={self.name}, resources={self.slots}, pos=({self.x}, {self.y}))"
         else:
             return f"{self.type.name}(name={self.name}, resources=unknown)"
 

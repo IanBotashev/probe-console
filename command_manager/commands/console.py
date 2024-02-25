@@ -3,6 +3,7 @@ from command_manager.command import BaseCommand
 from command_manager.commands.interface import interface_command_manager
 from settings import MODULES
 from objects.probe import Probe
+from engine.gameobject.behavior.orbit import OrbitBehavior
 import constants
 
 
@@ -68,6 +69,28 @@ class ConsoleStatusCommand(BaseCommand):
         print("Status:")
         print(f"  - Money: ${constants.player.money}")
         print(f"  - Active Probes: {len(constants.player.probes)}")
+
+
+class ConsoleCelestialOrbitPrintCommand(BaseCommand):
+    help_message = "Displays orbital information on a celestial"
+    alias = "orbit"
+    required_args = 1
+
+    @staticmethod
+    def execute(context: Context, args):
+        celestial = constants.game_manager.get_celestial_by_name(args[0])
+        if celestial is None:
+            print(f"No celestial named {args[0]}")
+            return
+
+        for behavior in celestial.behaviors:
+            if type(behavior) is OrbitBehavior:
+                print(f"Orbiting {behavior.orbit_object.name}")
+                print(behavior)
+                return
+
+        else:
+            print("It appears this celestial is not orbiting anything.")
 
 
 class ConsoleBuildProbeCommand(BaseCommand):

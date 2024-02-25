@@ -1,14 +1,16 @@
 from typing import List
 from objects.celestial import Celestial
 from engine.exceptions import InGameException
-from engine.gameobject import GameObject
+from engine.gameobject import GameObject, TickObject
 from settings import TICK_LENGTH_TO_GENERATE
 from objects.probemodule import Module
 
 
-class Probe(GameObject):
+class Probe(GameObject, TickObject):
     def __init__(self, name: str, modules: List[Module]):
-        super().__init__()
+        GameObject.__init__(self)
+        TickObject.__init__(self)
+
         self.name = name
         self.modules = modules
 
@@ -18,7 +20,6 @@ class Probe(GameObject):
         self.energy_gen = self.get_energy_generation()
 
         # Location related
-        self.location = None  # Which celestial object this is orbiting
         self.fuel = 5
 
         # Technical
@@ -69,10 +70,11 @@ class Probe(GameObject):
         if consume_fuel and self.fuel <= 0:
             raise InGameException("Probe does not have enough fuel to move locations.")
 
-        if self.location == location:
+        # OrbitBehavior should theoretically be the only one...
+        if self.behaviors[0].orbit_object == location:
             raise InGameException("Probe already at location.")
 
-        self.location = location
+        self.behaviors[0].orbit_object = location
         if consume_fuel:
             self.fuel -= 1
 
@@ -124,4 +126,4 @@ class Probe(GameObject):
         return result
 
     def __str__(self):
-        return f"{self.name}(energy=(stored={self.energy}, cap={self.energy_cap}, gen={self.energy_gen}), fuel={self.fuel}, location={self.location})"
+        return f"{self.name}(energy=(stored={self.energy}, cap={self.energy_cap}, gen={self.energy_gen}), fuel={self.fuel}, location={self.behaviors[0].orbit_object}, pos=({self.x}, {self.y})"

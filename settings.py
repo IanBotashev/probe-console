@@ -24,6 +24,8 @@ CELESTIAL_TYPES = [
     CelestialType("moon", 2, 5, 25),
     CelestialType("planet", 3, 10, 30)
 ]
+# Shouldn't be generated, so we create these outside of the CELESTIAL_TYPES
+STAR_CELESTIAL = CelestialType("star", 0, 0, 0)
 
 
 # All types of modules that can be found in-game

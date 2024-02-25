@@ -12,6 +12,7 @@ class TickManager:
     def __init__(self):
         self.tick = 0
         self.tick_event = Event()
+        self.paused = False
 
     def start(self):
         """
@@ -28,7 +29,8 @@ class TickManager:
         :return: None
         """
         while constants.game.running:
-            # Run a tick event at 0, instead of waiting for 1.
-            self.tick_event.trigger(tick=self.tick)
-            time.sleep(TICK_SLEEP_TIME)
-            self.tick += 1
+            if not self.paused:
+                # Run a tick event at 0, instead of waiting for 1.
+                self.tick_event.trigger(tick=self.tick)
+                time.sleep(TICK_SLEEP_TIME)
+                self.tick += 1

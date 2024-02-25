@@ -28,6 +28,20 @@ class CreateTestProbeCheat(BaseCommand):
         print(name)
 
 
+class TogglePauseCheat(BaseCommand):
+    help_message = "Pauses ticking"
+    alias = "pause"
+
+    @staticmethod
+    def execute(context: Context, args):
+        constants.tick_manager.paused = not constants.tick_manager.paused
+
+        if constants.tick_manager.paused:
+            print("Paused")
+        else:
+            print("Unpaused")
+
+
 class GetTickCheat(BaseCommand):
     help_message = "Prints current tick"
     alias = "tick"

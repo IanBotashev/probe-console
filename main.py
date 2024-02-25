@@ -4,6 +4,8 @@ import os
 import constants
 
 
+# TODO: Add a rough "map", putting on it probes and celestials
+
 def main():
     """
     Entrypoint for the game

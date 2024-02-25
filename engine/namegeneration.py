@@ -8,6 +8,7 @@ MYTH_NAMES = ['zeus', 'hera', 'apollo', 'athena', 'hermes', 'artemis', 'dionysus
 MIN_NUMBER = 1
 MAX_NUMBER = 400
 
+
 # TODO: Refine name generation
 # Right now, we don't care for the type of the name we're generating.
 def generate_name():

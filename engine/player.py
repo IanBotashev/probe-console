@@ -3,6 +3,7 @@ from command_manager.commands.cheat import *
 from command_manager.commands.console import *
 from settings import ENABLE_CHEATS
 import constants
+from engine.gameobject.behavior.orbit import OrbitBehavior
 
 
 class Player:
@@ -42,7 +43,9 @@ class Player:
         """
         # TODO: Add a cost to building probes
         probe = Probe(name=name, modules=modules)
-        probe.change_location(constants.game_manager.capital_celestial, consume_fuel=False)
+        probe_orbit = OrbitBehavior.generate_orbit(probe, constants.game_manager.capital_celestial, 0.0002)
+        probe.add_behavior(probe_orbit)
+
         self.probes.append(probe)
         self.add_money(-Probe.get_build_cost(modules))
         return probe
@@ -58,15 +61,9 @@ class Player:
              ConsoleProbeInterfaceCommand,
              ConsoleListProbesCommand,
              ConsoleStatusCommand,
-             ConsoleBuildProbeCommand])
+             ConsoleBuildProbeCommand,
+             ConsoleCelestialOrbitPrintCommand])
 
         if ENABLE_CHEATS:
-            console_cmd_manager.commands += [DiscoverAllCelestialsCheat, CreateTestProbeCheat, GetTickCheat]
+            console_cmd_manager.commands += [DiscoverAllCelestialsCheat, CreateTestProbeCheat, GetTickCheat, TogglePauseCheat]
         console_cmd_manager.handle_loop(">")
-
-    def get_tick_objects(self):
-        """
-        Gets all the tick objects we have documented in this class
-        :return:
-        """
-        return self.probes
